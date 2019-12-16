@@ -35,12 +35,32 @@ def printList(head: Node):
     cursor = cursor.getNext()
 
 def removeDup(head: Node):
-  pass
+  if not head:
+    raise Exception('unable to perform action on empty list')
+
+  cur = head
+  seen = { cur.getData(): True }
+  
+  while cur.getNext():
+    if cur.getNext().getData() in seen:
+      cur.setNext(cur.getNext().getNext())
+    else:
+      seen[cur.getData()] = True
+    cur = cur.getNext()
 
 if __name__ == '__main__':
   head = Node(1)
   # print(head.getData())
   add(head, 2)
+  add(head, 2)
+  add(head, 2)
   add(head, 3)
   add(head, 4)
+  add(head, 4)
+  add(head, 4)
+  add(head, 4)
+  add(head, 4)
+  printList(head)
+  print()
+  removeDup(head)
   printList(head)
