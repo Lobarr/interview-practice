@@ -28,7 +28,7 @@ class StackOfPlates:
         print('removing empty stack')
         self.stacks.pop(-1)
       return lastElement
-    return -1
+    return None
 
   def popAt(self, index):
     if not (0 <= index < len(self.stacks)):
