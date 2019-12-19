@@ -198,8 +198,9 @@ class PNode:
     )
 
 class PriorityQueue:
-  def __init__(self, ):
+  def __init__(self):
     self.queue = []
+    self.count = 0
 
   def getParentIndex(self, index: int):
     parentIndex = (index - 1) // 2
@@ -250,7 +251,7 @@ class PriorityQueue:
     )
 
   def update(self, node: PNode, newNode: PNode):
-    if not self.verifyNode():
+    if not self.verifyNode(node):
       raise ERR_INVALID_NODE
     node.setData(newNode.getData())
     node.setPriority(newNode.getPriority())
