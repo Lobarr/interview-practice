@@ -16,7 +16,7 @@ class Node:
     return self.getData() == None and self.getNext()
   
 def add(head: Node, data):
-  newNode = Node(data)
+  newNode = Node(data) if not isinstance(data, Node) else data
   if not head or head.isEmpty():
     return newNode
   
@@ -96,6 +96,45 @@ def sumLists(firstList: Node, secondList: Node):
 
   return parseValue(firstList) + parseValue(secondList)
 
+def isPalindrome(firstList: Node, secondList: Node):
+  if not firstList or not secondList:
+    raise Exception('unable to perform action on empty list')
+
+  stack = []
+
+  cur = firstList
+  while cur != None:
+    stack.append(cur.getData())
+    cur = cur.getNext()
+
+  cur = secondList
+  while cur != None:
+    if not stack or stack.pop(-1) != cur.getData():
+      return False
+    cur = cur.getNext()
+
+  return True
+
+def intersection(firstList: Node, secondList: Node):
+  if not firstList or not secondList:
+    raise Exception('unable to perform action on empty list')
+    
+  seenNodeRefs = {}
+  cur = firstList
+  while cur != None:
+    nodeRef = hex(id(cur))
+    if nodeRef not in seenNodeRefs:
+      seenNodeRefs[nodeRef] = True
+    cur = cur.getNext()
+
+  cur = secondList
+  while cur != None:
+    nodeRef = hex(id(cur))
+    if nodeRef in seenNodeRefs:
+      return cur
+    cur = cur.getNext()
+  
+  return None
   
 
 def makeList(values: list):
@@ -108,6 +147,19 @@ def makeList(values: list):
   return node
 
 if __name__ == '__main__':
-  firstList = makeList([6,1,7])
-  secondList = makeList([2,9,5])  
-  print(sumLists(firstList, secondList))
+  firstList = Node(1)
+  intersectingNode = Node(5)
+  print('intersecting node ref ', hex(id(intersectingNode)))
+  add(firstList, 2)
+  add(firstList, 3)
+  add(firstList, 4)
+  add(firstList, intersectingNode)
+  add(firstList, 6)
+
+  secondList = Node(1)
+  for i in range(2, 6):
+    add(secondList, i)
+  add(secondList, intersectingNode)
+
+  print(intersection(firstList, secondList))
+  # print(isPalindrome(firstList, secondList))

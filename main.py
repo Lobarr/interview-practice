@@ -27,7 +27,7 @@ def listOfDepths(tree: LinkedBinaryTree):
 
 if __name__ == '__main__':
   tree = LinkedBinaryTree()
-  for i in range(100):
+  for i in range(20):
     newNode = Node(data=randint(1, 100))
     tree.insert(newNode)
 
