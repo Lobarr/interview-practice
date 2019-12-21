@@ -1,5 +1,4 @@
 from queue import Queue
-from pprint import pprint
 from random import randint
 from ds.sLinkedList import SLinkedList
 from ds.binaryTree import LinkedBinaryTree, Node
@@ -27,9 +26,7 @@ def listOfDepths(tree: LinkedBinaryTree):
 
 if __name__ == '__main__':
   tree = LinkedBinaryTree()
-  for i in range(100):
-    newNode = Node(data=randint(1, 100))
+  for i in range(16):
+    newNode = Node(randint(1, 100))
     tree.insert(newNode)
-
-  depths = listOfDepths(tree)
-  pprint(depths)
+  print(listOfDepths(tree))
