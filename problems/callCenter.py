@@ -55,7 +55,7 @@ class Employee:
 
   def handleCall(self, call: Call):
     self.setStatus(EmployeeStatus.BUSY)
-    sleep(1)
+    sleep(0.1)
     print(f'Call {call.getId()} handled by {self.getType()}')
     self.setStatus(EmployeeStatus.FREE)
 
@@ -94,7 +94,7 @@ class CallCenter:
     self.directors = Queue()
     self.callQueue = PriorityQueue()
     self.engine = Thread(target=self._processCalls)
-    self.stop = False
+    self.running = True
     self.engine.start()
 
   def addEmployee(self, employee):
@@ -138,7 +138,7 @@ class CallCenter:
       self._handleCall(nextDirector, call)
 
   def _processCalls(self):
-    while True and not self.stop:
+    while self.running:
       if not self.callQueue.isEmpty():
         nextCallNode = self.callQueue.dequeue()
         nextCall = nextCallNode.getData()
@@ -150,8 +150,11 @@ class CallCenter:
     node = PNode(callPriority, call)
     return node
 
+  def _isProcessing(self):
+    return True if not self.callQueue.isEmpty() else False
+
   def _stopEngine(self):
-    self.stop = True
+    self.running = False
 
   def dispatchCall(self, call: Call):
     callNode = self._makeCallPNode(call)
