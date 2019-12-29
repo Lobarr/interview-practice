@@ -1,6 +1,10 @@
 from enum import Enum
 from uuid import uuid4
 from queue import Queue
+from threading import Thread
+from time import sleep
+from ds.queue import PriorityQueue, PNode
+
 
 class EmployeeStatus(Enum):
   BUSY = 1
@@ -35,8 +39,6 @@ class Call:
     else:
       self.setEscalationLevel(EscalationLevel.Respondent)
 
-    print('Call escalated')
-
 
 class Employee:
   def __init__(self):
@@ -53,6 +55,7 @@ class Employee:
 
   def handleCall(self, call: Call):
     self.setStatus(EmployeeStatus.BUSY)
+    sleep(1)
     print(f'Call {call.getId()} handled by {self.getType()}')
     self.setStatus(EmployeeStatus.FREE)
 
@@ -89,6 +92,10 @@ class CallCenter:
     self.respondents = Queue()
     self.managers = Queue()
     self.directors = Queue()
+    self.callQueue = PriorityQueue()
+    self.engine = Thread(target=self._processCalls)
+    self.stop = False
+    self.engine.start()
 
   def addEmployee(self, employee):
     if isinstance(employee, Respondent):
@@ -113,12 +120,13 @@ class CallCenter:
   def _handleCall(self, nextEmployee, call):
     if not nextEmployee:
       call.escalate()
-      self.dispatchCall(call)
+      callNode = self._makeCallPNode(call)
+      self.callQueue.enqueue(callNode)
     else:
       nextEmployee.handleCall(call)
       self.addEmployee(nextEmployee)
 
-  def dispatchCall(self, call: Call):
+  def _processCall(self, call: Call):
     if call.getEscalationLevel() == EscalationLevel.Respondent:
       nextRespondent = self.getNextRespondant()
       self._handleCall(nextRespondent, call)
@@ -129,3 +137,22 @@ class CallCenter:
       nextDirector = self.getNextDirector()
       self._handleCall(nextDirector, call)
 
+  def _processCalls(self):
+    while True and not self.stop:
+      if not self.callQueue.isEmpty():
+        nextCallNode = self.callQueue.dequeue()
+        nextCall = nextCallNode.getData()
+        worker = Thread(target=self._processCall, args=(nextCall,))
+        worker.start()
+
+  def _makeCallPNode(self, call: Call):
+    callPriority = call.getEscalationLevel().value
+    node = PNode(callPriority, call)
+    return node
+
+  def _stopEngine(self):
+    self.stop = True
+
+  def dispatchCall(self, call: Call):
+    callNode = self._makeCallPNode(call)
+    self.callQueue.enqueue(callNode)
