@@ -1,9 +1,9 @@
 def insertionSortAsc(array: list):
   for curIndex in range(len(array)):
     cur = array[curIndex]
-    prev = curIndex - 1
-    while (prev >= 0 and array[prev] > cur):
-      array[prev + 1] = array[prev]
-      prev -= 1
-    array[prev + 1] = cur; 
+    prevIndex = curIndex - 1
+    while (prevIndex >= 0 and array[prevIndex] > cur):
+      array[prevIndex + 1] = array[prevIndex]
+      prevIndex -= 1
+    array[prevIndex + 1] = cur; 
   return array
