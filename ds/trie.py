@@ -25,7 +25,6 @@ class Trie:
   def insert(self, word):
     cur = self.root
     for char in word:
-      childNode = None
       if not cur.hasChild(char):
         print('creating new char node')
         childNode = TrieNode(char)
