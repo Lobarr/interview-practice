@@ -1,5 +1,10 @@
-from algo.mergSort import mergeSort
-from algo.quickSort import quickSort
+from problems.meetingRoom2 import meetingRoomII
 
 if __name__ == '__main__':
-  print(quickSort([5,4,3,2,1]))
+    meetings = [
+        [0, 30],
+        [5, 10],
+        [15, 20]
+    ]
+
+    print(meetingRoomII(meetings))
