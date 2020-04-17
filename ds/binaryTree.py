@@ -79,9 +79,9 @@ class Node:
     )
 
   def getChildren(self):
-    if self._left != None:
+    if self._left:
       yield self._left
-    if self._right != None:
+    if self._right:
       yield self._right
   
   def __eq__(self, check):
@@ -110,7 +110,7 @@ class LinkedBinaryTree:
     return self._root == node
 
   def isEmpty(self):
-    return self._root == None
+    return False if self._root else True
 
   def getNode(self, data):
     cur = self.getRoot()

@@ -53,7 +53,6 @@ class Tree:
       return 0
     else: 
       return 1 + max(self.height(child) for child in self.children(node))
-
    
 class BinaryTree(Tree):
   def left(self, node):
