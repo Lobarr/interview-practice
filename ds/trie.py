@@ -42,7 +42,9 @@ class Trie:
         return False
       cur = cur.children[char]
     return True if cur.isWord else False
-      
+
+
+
 if __name__ == '__main__':
   trie = Trie()
   for word in ['testing', 'something','this','should','work']:

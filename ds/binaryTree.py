@@ -212,7 +212,7 @@ class LinkedBinaryTree:
   def insert(self, node: Node):
     if self.isEmpty():
       self.setRoot(node)
-    else: 
+    else:
       cur = self.getRoot()
       while True:
         if node.getData() > cur.getData():
@@ -426,7 +426,7 @@ class LinkedBinaryTree:
       return node
   
 class ArrayBinaryTree:
-  def __init__(self, numLevels = 2):
+  def __init__(self):
     self.data = []
 
   def isEmpty(self):
