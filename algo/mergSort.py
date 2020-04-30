@@ -25,6 +25,6 @@ def mergeSort(arr):
 def merge(firstHalf, secondHalf):
   result = []
   while firstHalf and secondHalf:
-    next = (firstHalf if firstHalf[0] <= secondHalf[0] else secondHalf).pop(0)
-    result.append(next)
+    next_val = (firstHalf if firstHalf[0] <= secondHalf[0] else secondHalf).pop(0)
+    result.append(next_val)
   return result + firstHalf + secondHalf
