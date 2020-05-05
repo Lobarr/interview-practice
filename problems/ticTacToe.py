@@ -75,7 +75,7 @@ class TicTacToeBoard(Board):
 
   def checkHorizontal(self, player: str) -> bool:
     for row in self.board:
-      if len(list(filter(lambda x: x == player, row))) == 3:
+      if len(list(filter(lambda x: x == player, row))) == self.rowSize:
         return True
     return False
 
@@ -88,7 +88,7 @@ class TicTacToeBoard(Board):
         if row[curColIndex] == player:
           matchCount += 1
       
-      if matchCount == 3:
+      if matchCount == self.colSize:
         return True
 
       curColIndex -= 1
@@ -108,7 +108,7 @@ class TicTacToeBoard(Board):
       colIndex += 1
       rowIndex += 1
 
-    if matchCount == 3:
+    if matchCount == self.rowSize:
       return True
     
     return False
@@ -125,7 +125,7 @@ class TicTacToeBoard(Board):
       colIndex += 1
       rowIndex -= 1
 
-    if matchCount == 3:
+    if matchCount == self.rowSize:
       return True
 
     return False
@@ -154,7 +154,7 @@ class TicTacToeBoard(Board):
 
 class TicTacToe:
   def __init__(self):
-    self.curPlayer = 'X' if randint(0, 1) == 0 else 'O'
+    self.curPlayer = 'X' if randint(0, 10) <= 5 else 'O'
     self.board = TicTacToeBoard()
 
   def togglePlayerTurn(self):
@@ -183,11 +183,11 @@ class TicTacToe:
         return (x,y)
       except ValueError:
         print('Invalid input was provided')
-        self.printSeperatorSpaces()
+        # self.printSeperatorSpaces()
         continue
       except InvalidCoordinate as err:
         print(str(err))
-        self.printSeperatorSpaces()
+        # self.printSeperatorSpaces()
         continue
       else:
         break
@@ -195,11 +195,6 @@ class TicTacToe:
         self.printSeperatorSpaces()
 
   def play(self):
-    """
-    display board
-    anounce who's turn
-    get user input
-    """
     self.printHeader()
     while True:
       try:
@@ -209,7 +204,6 @@ class TicTacToe:
         x, y = self.getPlayerInput()
 
         if not self.board.setCoordinate(x, y, self.curPlayer):
-          # current player plays again
           continue
 
         if self.board.checkWin(self.curPlayer):
@@ -218,6 +212,7 @@ class TicTacToe:
           break
 
         self.togglePlayerTurn()
+        
       except TiedGame:
         self.board.printBoard()
         print('Game is a tie!')
