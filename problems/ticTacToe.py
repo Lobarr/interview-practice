@@ -1,11 +1,29 @@
-from random import randint
 from abc import ABC, abstractmethod
+from random import randint
+from typing import Tuple
+
+class InvalidCoordinate(Exception):
+  pass
+
+class TiedGame(Exception):
+  pass
+
+class DoublePlay(Exception):
+  pass
 
 class Board(ABC):
+  COORDINATE_PLACEHOLDER = '*'
+
   def __init__(self, rowSize: int, colSize: int):
-    self.board = [[''] * colSize for _ in range(rowSize)]
+    self.board = [[Board.COORDINATE_PLACEHOLDER] * colSize for _ in range(rowSize)]
     self.rowSize = rowSize
     self.colSize = colSize
+
+  def getColSize(self) -> int:
+    return self.colSize
+
+  def getRowSize(self) -> int:
+    return self.rowSize
 
   def validateCoordinate(self, x: int, y: int) -> bool:
     if (
@@ -16,8 +34,11 @@ class Board(ABC):
     return False
 
   def setCoordinate(self, x: int, y: int, value: str) -> bool:
-    if not self.validateCoordinate(x, y) or self.board[x][y] != '':
+    if not self.validateCoordinate(x, y):
       return False
+
+    if self.board[x][y] != Board.COORDINATE_PLACEHOLDER:
+      raise DoublePlay('Provided coordinate is already occupied')
 
     self.board[x][y] = value
 
@@ -31,7 +52,7 @@ class Board(ABC):
 
   def isFull(self) -> bool:
     for row in self.board:
-      if len(list(filter(lambda x: x == '', row))) > 0:
+      if len(list(filter(lambda x: x == Board.COORDINATE_PLACEHOLDER, row))) > 0:
         return False
 
     return True
@@ -111,52 +132,103 @@ class TicTacToeBoard(Board):
 
   def checkWin(self, player: str) -> bool:
     if (
-      self.checkHorizontal() 
-      or self.checkVertical() 
-      or self.checkDecreasingDiagonal() 
-      or self.checkIncreasingDiagonal()
+      self.checkHorizontal(player) 
+      or self.checkVertical(player) 
+      or self.checkDecreasingDiagonal(player) 
+      or self.checkIncreasingDiagonal(player)
     ):
       return True
 
     if self.isFull():
-      raise Exception('Game is a tie')
+      raise TiedGame('Game is a tie')
     
     return False
 
   def printBoard(self):
     for index, row in enumerate(self.board):
       print(' | '.join(row))
-      if index < len(self.board):
+      if index < len(self.board) - 1:
         print('_' * 9)
+    print()
 
 
-
-"""
-- should run execution loop
-- should track player turn
-- 
-"""
 class TicTacToe:
   def __init__(self):
     self.curPlayer = 'X' if randint(0, 1) == 0 else 'O'
     self.board = TicTacToeBoard()
 
-  def togglePlayer(self):
+  def togglePlayerTurn(self):
     self.curPlayer = 'X' if self.curPlayer == 'O' else 'O'
+
+  def printHeader(self):
+    print('--- TIC TAC TOE --- \n \n')
+
+  def printPlayerTurn(self, player: str):
+    print(f'Current Player - {self.curPlayer}')
+
+  def printSeperatorSpaces(self):
+    for _ in range(3):
+      print()
+
+  def getPlayerInput(self) -> Tuple[int, int]:
+    while True:
+      try:
+        print('Enter board coordinate...')
+        x = int(input(f'x [0 - {self.board.getRowSize() - 1}]: '))
+        y = int(input(f'y [0 - {self.board.getColSize() - 1}]: '))
+
+        if not self.board.validateCoordinate(x, y):
+          raise InvalidCoordinate('Enter valid coordinates')
+
+        return (x,y)
+      except ValueError:
+        print('Invalid input was provided')
+        self.printSeperatorSpaces()
+        continue
+      except InvalidCoordinate as err:
+        print(str(err))
+        self.printSeperatorSpaces()
+        continue
+      else:
+        break
+      finally: 
+        self.printSeperatorSpaces()
 
   def play(self):
     """
+    display board
+    anounce who's turn
     get user input
-
     """
-    try:
-      #TODO: write execution loop
-      pass
-    except Exception as error:
-      #TODO: handle error
-      pass
+    self.printHeader()
+    while True:
+      try:
+        self.board.printBoard()
+        self.printPlayerTurn(self.curPlayer)
 
+        x, y = self.getPlayerInput()
+
+        if not self.board.setCoordinate(x, y, self.curPlayer):
+          # current player plays again
+          continue
+
+        if self.board.checkWin(self.curPlayer):
+          self.board.printBoard()
+          print(f'Game winner is Player {self.curPlayer}!')
+          break
+
+        self.togglePlayerTurn()
+      except TiedGame:
+        self.board.printBoard()
+        print('Game is a tie!')
+        break
+
+      except DoublePlay as err:
+        print(str(err))
+        print()
+        continue
+    
 
 if __name__ == '__main__':
   ticTacToe = TicTacToe()
-  # ticTacToe.play()
+  ticTacToe.play()
