@@ -12,19 +12,20 @@
 #   return (start + arr + end)
 
 
-
 def mergeSort(arr):
-  if len(arr) <= 1:
-    return arr
-  
-  mid = len(arr) // 2
-  firstHalf = mergeSort(arr[:mid])
-  secondHalf = mergeSort(arr[mid:])
-  return merge(firstHalf, secondHalf)
+    if len(arr) <= 1:
+        return arr
+
+    mid = len(arr) // 2
+    firstHalf = mergeSort(arr[:mid])
+    secondHalf = mergeSort(arr[mid:])
+    return merge(firstHalf, secondHalf)
+
 
 def merge(firstHalf, secondHalf):
-  result = []
-  while firstHalf and secondHalf:
-    next_val = (firstHalf if firstHalf[0] <= secondHalf[0] else secondHalf).pop(0)
-    result.append(next_val)
-  return result + firstHalf + secondHalf
+    result = []
+    while firstHalf and secondHalf:
+        next_val = (firstHalf
+                    if firstHalf[0] <= secondHalf[0] else secondHalf).pop(0)
+        result.append(next_val)
+    return result + firstHalf + secondHalf

@@ -5,7 +5,7 @@
 #   public static HashMap<String, Integer> cache = new
 
 #   public static int compute(int[] coins, int total) {
-    
+
 #   }
 
 #   public static int findWays(int current, int startFrom) {
@@ -28,7 +28,6 @@
 # 1 + 1 + 2
 # 2 + 2
 
-
 # Example 2:
 
 # Input: [2, 5, 3, 6], 10
@@ -43,7 +42,6 @@
 # 2 + 2 + 2 + 2 + 2
 
 # */
-
 
 # function coinSum(coins, total) {
 
@@ -75,8 +73,6 @@
 # // 1) Create cache
 # // 2) Check cache
 # // 3) Write to cache
-
-
 
 # function coinSumMemo(coins, total) {
 #   const cache = {};
@@ -113,13 +109,13 @@
 # function coinSumTab(coins, total) {
 #   const table = new Array(total + 1).fill(0);
 #   table[0] = 1;
-  
+
 #   for (let coin of coins) {
 #     for (let i = coin; i < table.length; i++) {
 #       table[i] = table[i] + table[i - coin];
 #     }
 #   }
-  
+
 #   return table[total];
 # }
 
@@ -134,4 +130,3 @@
 # console.time("TABULATION: ");
 # console.log(coinSumTab([2, 5, 3, 6], 50000));
 # console.timeEnd("TABULATION: ");
-

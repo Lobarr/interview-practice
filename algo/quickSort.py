@@ -6,9 +6,9 @@ def quickSort(arr: list):
     less, more = [], []
 
     for val in arr:
-      if val <= pivot:
-        less.append(val)
-      else:
-        more.append(val)
+        if val <= pivot:
+            less.append(val)
+        else:
+            more.append(val)
 
     return quickSort(less) + [pivot] + quickSort(more)

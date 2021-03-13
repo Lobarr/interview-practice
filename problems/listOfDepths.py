@@ -3,30 +3,32 @@ from random import randint
 from ds.sLinkedList import SLinkedList
 from ds.binaryTree import LinkedBinaryTree, Node
 
+
 def listOfDepths(tree: LinkedBinaryTree):
-  if tree.isEmpty():
-    return None
+    if tree.isEmpty():
+        return None
 
-  depths = {}
-  queue = Queue()
-  queue.put((tree.getRoot(), 0))
+    depths = {}
+    queue = Queue()
+    queue.put((tree.getRoot(), 0))
 
-  while not queue.empty():
-    cur, depth = queue.get()
-    if depth not in depths:
-      depth_list = [cur]
-      depths[depth] = depth_list
-    else:
-      depths[depth].append(cur)
-    
-    for child in cur.getChildren():
-      queue.put((child, depth + 1))
-    
-  return depths
+    while not queue.empty():
+        cur, depth = queue.get()
+        if depth not in depths:
+            depth_list = [cur]
+            depths[depth] = depth_list
+        else:
+            depths[depth].append(cur)
+
+        for child in cur.getChildren():
+            queue.put((child, depth + 1))
+
+    return depths
+
 
 if __name__ == '__main__':
-  tree = LinkedBinaryTree()
-  for i in range(16):
-    newNode = Node(randint(1, 100))
-    tree.insert(newNode)
-  print(listOfDepths(tree))
+    tree = LinkedBinaryTree()
+    for i in range(16):
+        newNode = Node(randint(1, 100))
+        tree.insert(newNode)
+    print(listOfDepths(tree))

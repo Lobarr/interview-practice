@@ -1,48 +1,50 @@
 from ds.dLinkedList import DLinkedList
 
+
 class Position:
-  def __init__(self, data  = None):
-    self.data = data
-  
-  def setData(self, data):
-    self.data = data
-  
-  def getData(self):
-    return self.data
+    def __init__(self, data=None):
+        self.data = data
+
+    def setData(self, data):
+        self.data = data
+
+    def getData(self):
+        return self.data
+
 
 class PositionList:
-  def __init__(self):
-    self.list = DLinkedList()
-    self.front = None
-    self.back = None
-  
-  def isEmpty(self):
-    return self.front == self.back == None
+    def __init__(self):
+        self.list = DLinkedList()
+        self.front = None
+        self.back = None
 
-  def getFront(self):
-    return self.front
+    def isEmpty(self):
+        return self.front == self.back == None
 
-  def getBack(self):
-    return self.back
+    def getFront(self):
+        return self.front
 
-  def addFront(self, data):
-    newFront = Position(data)
-    self.list.insertFront(newFront)
-    self.front = newFront
+    def getBack(self):
+        return self.back
 
-  def setBack(self, data):
-    newBack = Position(data)
-    self.list.insertBack(newBack)
-    self.back = newBack
+    def addFront(self, data):
+        newFront = Position(data)
+        self.list.insertFront(newFront)
+        self.front = newFront
 
-  def addBefore(self, position,  data):
-    pass
-  
-  def addAfter(self, position, data):
-    pass
+    def setBack(self, data):
+        newBack = Position(data)
+        self.list.insertBack(newBack)
+        self.back = newBack
 
-  def replace(self, position, data):
-    pass
-    
-  def remove(self, position):
-    pass
+    def addBefore(self, position, data):
+        pass
+
+    def addAfter(self, position, data):
+        pass
+
+    def replace(self, position, data):
+        pass
+
+    def remove(self, position):
+        pass
