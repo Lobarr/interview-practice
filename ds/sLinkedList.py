@@ -152,11 +152,19 @@ class SLinkedList:
             endNode = curNode
 
     def reverse(self):
-        nodes = []
-        while self.head != None:
-            nodes.append(self.removeFront())
-        for node in nodes:
-            self.insertFront(node.data)
+        if self.isEmpty():
+            return
+
+        curNode = self.head
+        prevNode = None
+
+        while curNode != None:
+            nextNode = curNode.nextNode
+            curNode.nextNode = prevNode
+            prevNode = curNode
+            curNode = nextNode
+
+        self.head = prevNode # head node becomes last node
 
     def getCount(self):
         return self.count
