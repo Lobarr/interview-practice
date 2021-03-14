@@ -24,7 +24,3 @@ if __name__ == '__main__':
     s.removeAt(s.count - 1)
     s.printListAsc()
 
-    s.insertFront(200)
-    print()
-    s.bubbleSortDes()
-    s.printListAsc()

@@ -257,7 +257,7 @@ class PriorityQueue:
         self.bubble(node.getIndex())
 
     def remove(self, node: PNode):
-        if not self.verifyNode():
+        if not self.verifyNode(node):
             raise ERR_INVALID_NODE
         lastIndex = self.getCount() - 1
         if node.getIndex() == lastIndex:
@@ -269,12 +269,12 @@ class PriorityQueue:
 
     def heapify(self):
         """
-    bottom up heap contstuction - given queue is filled with leaf nodes
+    bottom up heap construction - given queue is filled with leaf nodes
     """
         lastLeafIndex = self.getCount() - 1
         start = self.getParentIndex(lastLeafIndex)
         for i in range(start, -1, -1):
-            self.bubbleDown(i)
+            self.bubble(i)
 
     def bubble(self, index):
         if (index > 0 and index <= self.getCount() - 1 and

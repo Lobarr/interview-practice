@@ -17,8 +17,7 @@ class Stack:
         return self.linkedList.getCount()
 
     def peek(self):
-        return self.linkedList.head.data if not self.linkedList.isEmpty(
-        ) else None
+        return self.linkedList.head if not self.linkedList.isEmpty() else None
 
     def printAsc(self):
         self.linkedList.printListAsc()

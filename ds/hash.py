@@ -8,8 +8,8 @@ class HashMap:
         self.count = 0
 
     def getBucketIndex(self, key):
-        hash_ = hash(key)
-        return hash_ % self.numBuckets
+        _hash = hash(key)
+        return _hash % self.numBuckets
 
     def get(self, key):
         bucketIndex = self.getBucketIndex(key)
@@ -57,7 +57,7 @@ class SortedMap:
             mid = (lowIndex + highIndex) // 2
             if key == self.table[mid].getKey():
                 return mid
-            elif key < self.self.table[mid].getKey():
+            elif key < self.table[mid].getKey():
                 return self.findIndex(key, lowIndex, mid - 1)
             else:
                 return self.findIndex(key, mid + 1, highIndex)
@@ -70,7 +70,7 @@ class SortedMap:
         return self.table[keyIndex]
 
     def setKey(self, key, value):
-        keyIndex = self.findIndex(key)
+        keyIndex = self.findIndex(key, 0, self.getCount() - 1)
         if (keyIndex < self.getCount()
                 and self.table[keyIndex].getKey() == key):
             self.table[keyIndex].setValue(value)

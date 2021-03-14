@@ -164,7 +164,7 @@ class SLinkedList:
             prevNode = curNode
             curNode = nextNode
 
-        self.head = prevNode # head node becomes last node
+        self.head = prevNode  # head node becomes last node
 
     def getCount(self):
         return self.count

@@ -1,7 +1,8 @@
 class DNode:
     def __init__(self, data):
         self.data = data
-        self.nextNode = self.prevNode = None
+        self.nextNode = None
+        self.prevNode = None
 
 
 class DLinkedList:

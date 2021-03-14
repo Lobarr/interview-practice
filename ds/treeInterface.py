@@ -42,11 +42,10 @@ class Tree:
     def isEmpty(self):
         return len(self) == 0
 
-    def depth(self, node):
+    def depth(self, node) -> int:
         if self.isRoot(node):
             return 0
-        else:
-            return 1 + self.depth(self.parent(node))
+        return 1 + self.depth(self.parent(node))
 
     def height(self, node):
         if self.isLeaf(node):
