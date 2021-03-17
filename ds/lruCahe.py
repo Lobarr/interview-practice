@@ -117,7 +117,7 @@ def test_should_set_key_value_pair():
     key = 'foo'
     lru.set(key, 'bar')
     assert (lru.count == prev_count + 1)
-    assert (key in lru.cache)
+    assert (lru.get(key) != None)
 
 
 def test_should_update_same_key():
