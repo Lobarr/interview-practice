@@ -17,7 +17,7 @@ class LRUCache:
         self.head: Optional[Node] = None
         self.tail: Optional[Node] = None
 
-    def remove_from_position(self, node: Node):
+    def __remove_from_position(self, node: Node):
         if not node.prev:
             self.head = node.next
         else:
@@ -32,7 +32,7 @@ class LRUCache:
         node.next = None
         node.prev = None
 
-    def add_to_back(self, node: Node):
+    def __add_to_back(self, node: Node):
         if not self.head and not self.tail:
             self.head = self.tail = node
             return
@@ -46,12 +46,12 @@ class LRUCache:
             return None
 
         node = self.cache[key]
-        self.remove_from_position(node)
-        self.add_to_back(node)
+        self.__remove_from_position(node)
+        self.__add_to_back(node)
 
         return node.value
 
-    def attempt_evict_lru(self):
+    def __attempt_evict_lru(self):
         if not self.head and not self.tail:
             return
 
@@ -62,7 +62,7 @@ class LRUCache:
             del self.cache[prev_head.key]
             self.count -= 1
 
-    def make_node(self, key: str, value: str) -> Node:
+    def __make_node(self, key: str, value: str) -> Node:
         node = Node()
         node.key = key
         node.value = value
@@ -71,7 +71,7 @@ class LRUCache:
     def set(self, key: str, value: str):
         # set head and tail as new node when list is empty
         if not self.head and not self.tail:
-            node = self.make_node(key, value)
+            node = self.__make_node(key, value)
             self.head = self.tail = node
             self.cache[key] = node
             self.count += 1
@@ -81,18 +81,18 @@ class LRUCache:
         if key in self.cache:
             node = self.cache[key]
             node.value = value
-            self.remove_from_position(node)
-            self.add_to_back(node)
+            self.__remove_from_position(node)
+            self.__add_to_back(node)
 
         # when value doesn't exist in the list, add value to the back of list
         else:
-            node = self.make_node(key, value)
-            self.add_to_back(node)
+            node = self.__make_node(key, value)
+            self.__add_to_back(node)
             self.cache[key] = node
             self.count += 1
-            self.attempt_evict_lru()
+            self.__attempt_evict_lru()
 
-    def print_list_asc(self):
+    def __print_list_asc(self):
         nodes = []
         cursor = self.head
         while cursor != None:
@@ -106,7 +106,7 @@ class LRUCache:
             return
 
         node = self.cache[key]
-        self.remove_from_position(node)
+        self.__remove_from_position(node)
         self.count -= 1
         del self.cache[key]
 
